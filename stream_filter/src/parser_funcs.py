@@ -12,8 +12,12 @@ def get_source_to_rule_map():
     m = {}
     for rule in rule_objects:
         source_signal, value_type, rule_value = parse_rule_string(rule)
-        map = {'rule': rule, 'value': rule_value}
-        m[(source_signal, value_type)] = map
+        if (source_signal, value_type) in m:
+            rule_and_value = {'rule': rule, 'value': rule_value}
+            m[(source_signal, value_type)].append(rule_and_value)
+        else:
+            rule_and_value = {'rule': rule, 'value': rule_value}
+            m[(source_signal, value_type)] = [rule_and_value]
     return m
 
 
@@ -61,8 +65,13 @@ def read_rules():
 
 
 if __name__ == "__main__":
-    for o in read_json_stream():
-        print(o)
+    m = get_source_to_rule_map()
+    for  o in m[('ATL1', 'Integer')]:
+        print(o['rule'])
+        print(o['value'])
+
+    # for o in read_json_stream():
+    #     print(o)
     # print(read_rules())
     # for o in read_rules().readlines():
     # print(o)
