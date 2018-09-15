@@ -1,0 +1,3 @@
+ATL1 value should not rise above 24.00
+ATL2 value should never be LOW
+ATL3 should not be in future
